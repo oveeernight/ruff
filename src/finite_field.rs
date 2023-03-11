@@ -1,4 +1,5 @@
 use crate::finite_field_element::FiniteFieldElement;
+use crate::utils;
 
 pub struct FiniteField{
     pub characteristics: usize,
@@ -14,7 +15,7 @@ impl FiniteField{
     }
 
     pub fn create_one(&self) -> FiniteFieldElement{
-        let mut one_repr = Vec::with_capacity(self.pow);
+        let mut one_repr = utils::create_zero_vec(self.pow);
         one_repr[0] = 1;
         FiniteFieldElement{
             representation: one_repr,

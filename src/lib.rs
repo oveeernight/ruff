@@ -5,6 +5,8 @@ mod finite_field;
 
 mod finite_field_element;
 
+mod utils;
+
 // #[cfg(test)]
 // mod tests {
 //     use super::*;
