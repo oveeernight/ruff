@@ -1,10 +1,10 @@
-use crate::finite_field_element::FiniteFieldElement;
+use crate::finite_field_element::FFElement;
 use crate::utils;
 
 pub struct FiniteField{
     pub characteristics: usize,
     pub pow: usize,
-    irr_poly: Vec<usize>
+    pub irr_poly: Vec<usize>
 }
 
 impl FiniteField{
@@ -14,11 +14,9 @@ impl FiniteField{
             irr_poly}
     }
 
-    pub fn create_one(&self) -> FiniteFieldElement{
-        let mut one_repr = utils::create_zero_vec(self.pow);
-        one_repr[0] = 1;
-        FiniteFieldElement{
-            representation: one_repr,
+    pub fn create_one(&self) -> FFElement{
+        FFElement{
+            representation: utils::create_one_vec(self.pow),
             field: self
         }
     }
