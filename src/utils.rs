@@ -101,7 +101,7 @@ pub fn get_division_remainder(polynom: &Vec<usize>, modulus: &Vec<usize>, charac
         result[i] = cur_poly[i]
     }
 
-    cur_poly
+    result
 }
 
 fn inverse_prime_field_element(a: usize, characteristics: usize) -> usize{
