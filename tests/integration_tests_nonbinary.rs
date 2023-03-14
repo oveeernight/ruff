@@ -7,7 +7,7 @@ fn add_operation_without_overflow_is_correct(){
     let field =  FiniteField::new(3, 2, irr);
     let element1 = FFElement::new(vec![0,1], &field);
     let element2 = FFElement::new(vec![2,1], &field);
-    let result = element1.inverse();
+    let result = element1 + element2;
 
     assert_eq!(result, FFElement::new(vec![2,2], &field));
 }

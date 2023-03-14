@@ -94,7 +94,7 @@ pub fn get_division_remainder(polynom: &Vec<usize>, modulus: &Vec<usize>, charac
     let mut result = create_zero_vec(modulus.len() - 1);
 
     for i in 0..result.len(){
-        result[i] = cur_poly[i]
+        result[i] = cur_poly[i] % characteristics
     }
 
     result

@@ -97,7 +97,10 @@ impl <'a> FFElement<'a>{
                 panic!("Incorrect finite field element representation! Component value must be less than field characteristic.")
             }
         }
-        FFElement::new(representation, field)
+        FFElement{
+            representation,
+            field
+        }
     }
 }
 
