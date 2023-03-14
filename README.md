@@ -28,10 +28,8 @@ Since $GF(256)$ elements represents bytes, extra more concise interface with har
 ```rust
 use ruff::finite_field_element::gf256_element::GF256Element;
 
-fn create_gf256_field() -> FiniteField{
-    FiniteField { characteristics:2, pow: 8, irr_poly: vec![1, 1, 0, 1, 1, 0, 0, 0, 1] }
-
-    // no need no initialize field and provide it to elements
+fn main()
+ // no need no initialize field and provide it to elements
     let a = GF256Element::new(vec![0, 0, 0, 1, 1, 0, 0, 0, 0] );
     let b = GF256Element::new(vec![1, 0, 1, 1, 1, 0, 0, 0, 1] );
     //can perform same operations
@@ -48,6 +46,5 @@ fn create_gf256_field() -> FiniteField{
     // expected output - 254 
     let bytes = c.to_byte();
 }
-
 ```
-Notice that given code examples will show compilation error due to [variables movement](https://doc.rust-lang.org/rust-by-example/scope/move.html) in Rust.
+Notice that given code examples will not complie due to [variables movement](https://doc.rust-lang.org/rust-by-example/scope/move.html) in Rust. They are just shorthands so that readme does not grow much. You must use it considering Rust peculiarities.
