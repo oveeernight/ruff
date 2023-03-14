@@ -1,6 +1,7 @@
 use crate::finite_field_element::FFElement;
 use crate::utils;
 
+#[derive(Debug)]
 pub struct FiniteField{
     pub characteristics: usize,
     pub pow: usize,

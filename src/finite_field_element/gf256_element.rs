@@ -88,6 +88,18 @@ impl Neg for GF256Element {
     }
 }
 
+impl GF256Element{
+    pub fn inverse(&self) -> GF256Element{
+        let gf256_field = create_GF256_field();
+        let representation_copy = self.representation.clone();
+        let self_as_ffe = create_ff_element(representation_copy, &gf256_field);
+        let inverse = self_as_ffe.inverse();
+
+        GF256Element { representation: inverse.representation }
+
+    }
+}
+
 fn create_GF256_field() -> FiniteField{
     FiniteField { characteristics:2, pow: 8, irr_poly: vec![1, 1, 0, 1, 1, 0, 0, 0, 0, 1] }
 }
