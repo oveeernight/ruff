@@ -13,7 +13,7 @@ mod tests {
     fn inverse_prime_field_element_is_correct1() {
         let element = 5;
         let char = 7;
-        let inverse = utils::inverse_prime_field_element(5, 7);
+        let inverse = utils::inverse_prime_field_element(element, char);
         assert_eq!((inverse * element)% char, 1);
     }
 
@@ -21,7 +21,31 @@ mod tests {
     fn inverse_prime_field_element_is_correct2() {
         let element = 2;
         let char = 3;
-        let inverse = utils::inverse_prime_field_element(2, 3);
+        let inverse = utils::inverse_prime_field_element(element, char);
+        assert_eq!((inverse * element)% char, 1);
+    }
+
+    #[test]
+    fn inverse_to_big_prime_field_element_is_correct() {
+        let element = 762;
+        let char = 65537;
+        let inverse = utils::inverse_prime_field_element(element, char);
+        assert_eq!((inverse * element)% char, 1);
+    }
+
+    #[test]
+    fn inverse_to_prime_field_13_element_is_correct() {
+        let element = 8;
+        let char = 13;
+        let inverse = utils::inverse_prime_field_element(element, char);
+        assert_eq!((inverse * element)% char, 1);
+    }
+
+    #[test]
+    fn inverse_to_prime_field_17_element_is_correct() {
+        let element = 15;
+        let char = 17;
+        let inverse = utils::inverse_prime_field_element(element, char);
         assert_eq!((inverse * element)% char, 1);
     }
 

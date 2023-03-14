@@ -1,10 +1,9 @@
 use core::panic;
 use std::ops::{Add, Mul, Sub, Div, Neg};
-use std::result;
 use crate::finite_field::{FiniteField}; 
 use crate::{utils};
 
-mod gf256_element;
+pub mod gf256_element;
 
 #[derive(Debug)]
 pub struct FFElement<'a>{
@@ -19,12 +18,9 @@ impl Add for FFElement<'_> {
         if self.field.characteristics != rhs.field.characteristics || self.field.pow != rhs.field.pow{
             panic!("Can not perform operations with this elements. Ensure elements are from the same field.")
         }
-        let result :Vec<usize> = utils::add_vecs(&self.representation, &rhs.representation, self.field.characteristics);
+        let representation :Vec<usize> = utils::add_vecs(&self.representation, &rhs.representation, self.field.characteristics);
         
-        FFElement {
-            representation : result,
-            field: self.field
-        }
+        FFElement::new(representation, self.field)
     }
 }
 
@@ -33,12 +29,8 @@ impl Sub for FFElement<'_> {
 
     fn sub(self, rhs: Self) -> Self::Output {
         let rhs_add_rev = utils::add_inverse_vec(&rhs.representation, self.field.characteristics);
-        
-        let result = utils::add_vecs(&self.representation, &rhs_add_rev, self.field.characteristics);
-        FFElement{
-            representation: result,
-            field: self.field
-        }
+        let representation = utils::add_vecs(&self.representation, &rhs_add_rev, self.field.characteristics);
+        FFElement::new(representation, self.field)
     }
 }
 
@@ -47,15 +39,12 @@ impl Mul for FFElement<'_> {
 
     fn mul(self, rhs: Self) -> Self::Output {
         let mul_result = utils::mul_vecs(&self.representation, &rhs.representation, self.field.characteristics, self.field.pow);
-        let result = utils::get_division_remainder(&mul_result, 
+        let representation = utils::get_division_remainder(&mul_result, 
             &self.field.irr_poly,
              self.field.characteristics, 
              self.field.pow);
 
-        FFElement{
-            representation: result,
-            field: self.field
-        }
+        FFElement::new(representation, self.field)
     }
 }
 
@@ -80,10 +69,7 @@ impl Neg for FFElement<'_> {
     fn neg(self) -> Self::Output {
         let inv_repr = utils::add_inverse_vec(&self.representation, self.field.characteristics);
 
-        FFElement{
-            representation: inv_repr,
-            field: &self.field
-        }
+        FFElement::new(inv_repr, self.field)
     }
 }
 
@@ -111,10 +97,7 @@ impl <'a> FFElement<'a>{
                 panic!("Incorrect finite field element representation! Component value must be less than field characteristic.")
             }
         }
-        FFElement{
-            representation,
-            field
-        }
+        FFElement::new(representation, field)
     }
 }
 
@@ -126,39 +109,29 @@ impl <'a> FFElement<'a>{
             panic!("Can not inverse zero!");
         }
 
-        let mut result = FFElement { 
-            representation: self.representation.clone(),
-            field: self.field 
-        };
+        let mut cur_exp = FFElement::new(self.representation.clone(), self.field);
+        let mut result = self.field.create_one();
 
-        let mut temp_result = FFElement { 
-            representation: self.representation.clone(),
-            field: self.field 
-        };
+        let mut order = self.field.characteristics.pow(self.field.pow.try_into().unwrap()) - 2;
 
-
-        let mut i = 1;
-        let mut temp_i = 1;
-        let order = self.field.characteristics.pow(self.field.pow.try_into().unwrap());
-
-        while i != order - 2 {
-            if i + temp_i <= order - 2 {
-                // этот кошмар происходит потому что result мувается в выражении result * result и компилятор ругается
-                // borrow of moved value: `result`
-                temp_result = FFElement::new(temp_result.representation.clone(), &self.field) * 
-                    FFElement::new(temp_result.representation.clone(), &self.field);
-                temp_i *= 2;
+        while order > 0 {
+            if order % 2 != 0 {
+                // без clone cur_exp мувается и нельзя потом его дальше использовать
+                result = result * FFElement::new(cur_exp.representation.clone(), self.field);
             }
-            else{
-                result = FFElement::new(result.representation.clone(), &self.field) * temp_result;
-                i += temp_i;
 
-                temp_i = 1;
-                temp_result = FFElement::new(self.representation.clone(), &self.field);
+            cur_exp = FFElement::new(cur_exp.representation, self.field).square();
 
-            }
+            order /= 2;
         }
         result
+    }
+
+    pub fn square(self) -> FFElement<'a>{
+        let mul_result = utils::mul_vecs(&self.representation, &self.representation, self.field.characteristics, self.field.pow);
+        let repr_result = utils::get_division_remainder(&mul_result, &self.field.irr_poly, self.field.characteristics, self.field.pow);
+
+        FFElement::new(repr_result, &self.field)
     }
 }
 

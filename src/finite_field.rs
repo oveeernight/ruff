@@ -21,5 +21,12 @@ impl FiniteField{
             field: self
         }
     }
+
+    pub fn create_zero(&self) -> FFElement{
+        FFElement{
+            representation: utils::create_zero_vec(self.pow),
+            field: self
+        }
+    }
     
 }

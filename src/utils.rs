@@ -1,5 +1,3 @@
-use std::vec;
-
 pub fn create_zero_vec(n: usize) -> Vec<usize>{
     let mut result = Vec::with_capacity(n);
     for _i in 0..n  {
@@ -103,24 +101,19 @@ pub fn get_division_remainder(polynom: &Vec<usize>, modulus: &Vec<usize>, charac
 }
 
 pub fn inverse_prime_field_element(a: usize, characteristics: usize) -> usize{
-    let mut result = a;
-    let mut temp_result = a;
-    let mut i = 1;
-    let mut temp_i = 1;
+    let mut result = 1;
+    let mut cur_exp = a;
     // By Lagrange theorem from group theory a^p = a
     // then a^{-1} = a^{p-2}
-    while i != characteristics - 2{
-        if i + temp_i * 2 <= characteristics - 2{
-            temp_result *= temp_result;
-            temp_i *= 2
+    let mut i = characteristics - 2;
+    while i  > 0{
+        if i % 2 != 0{
+            result *= cur_exp;
+            result %= characteristics
         }
-        else{
-            result *= temp_result;
-            i += temp_i;
-            
-            temp_i = 1;
-            temp_result = a;
-        }
+        cur_exp *= cur_exp;
+        cur_exp %= characteristics;
+        i /= 2;
     }
 
     result
