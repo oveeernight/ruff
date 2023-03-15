@@ -89,8 +89,8 @@ impl <'a> FFElement<'a>{
             println!("{}", representation.len());
             panic!("Incorrect finite field element representation! Components count must be equal to field pow.")
         }
-        for i in 0..representation.len(){
-            if representation[i] >= field.characteristics{
+        for item in representation.iter(){
+            if *item >= field.characteristics{
                 panic!("Incorrect finite field element representation! Component value must be less than field characteristic.")
             }
         }
@@ -131,7 +131,7 @@ impl <'a> FFElement<'a>{
         let mul_result = utils::mul_vecs(&self.representation, &self.representation, self.field.characteristics, self.field.pow);
         let repr_result = utils::get_division_remainder(&mul_result, &self.field.irr_poly, self.field.characteristics, self.field.pow);
 
-        FFElement::new(repr_result, &self.field)
+        FFElement::new(repr_result, self.field)
     }
 }
 

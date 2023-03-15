@@ -33,7 +33,7 @@ pub fn is_zero_vec(polynom: &Vec<usize>) -> bool{
     true
 }
 
-pub fn add_inverse_vec(v: &Vec<usize>, characteristics: usize) -> Vec<usize>{
+pub fn add_inverse_vec(v: &[usize], characteristics: usize) -> Vec<usize>{
     let mut result = create_zero_vec(v.len());
     for i in 0..result.len() {
         result[i] = (characteristics - v[i]) % characteristics
@@ -44,7 +44,7 @@ pub fn add_inverse_vec(v: &Vec<usize>, characteristics: usize) -> Vec<usize>{
 
 
 
-pub fn add_vecs(v1: &Vec<usize>, v2: &Vec<usize>, characteristics: usize) -> Vec<usize>{
+pub fn add_vecs(v1: &[usize], v2: &[usize], characteristics: usize) -> Vec<usize>{
     let mut result = create_zero_vec(v1.len());
     for i in 0..result.len() {
         result[i] = (v1[i] + v2[i]) % characteristics;
@@ -56,7 +56,7 @@ pub fn add_vecs(v1: &Vec<usize>, v2: &Vec<usize>, characteristics: usize) -> Vec
 
 
 /// Returns the result of multiplying polynoms with coefficents from field with given char.
-pub fn mul_vecs(v1: &Vec<usize>, v2: &Vec<usize>, characteristics: usize, pow: usize) -> Vec<usize>{
+    pub fn mul_vecs(v1: &[usize], v2: &[usize], characteristics: usize, pow: usize) -> Vec<usize>{
     let mut result = create_zero_vec(pow * 2);
 
     for i in 0..v1.len() {
@@ -68,8 +68,8 @@ pub fn mul_vecs(v1: &Vec<usize>, v2: &Vec<usize>, characteristics: usize, pow: u
     result
 }
 
-pub fn get_division_remainder(polynom: &Vec<usize>, modulus: &Vec<usize>, characteristics: usize, pow: usize) -> Vec<usize>{
-    let mut cur_deg = get_vec_deg(&polynom);
+pub fn get_division_remainder(polynom: &Vec<usize>, modulus: &[usize], characteristics: usize, pow: usize) -> Vec<usize>{
+    let mut cur_deg = get_vec_deg(polynom);
     let mut cur_poly = polynom.clone();
     let modulus_deg = modulus.len() - 1;
     // mst is for modulus senior term
@@ -86,7 +86,7 @@ pub fn get_division_remainder(polynom: &Vec<usize>, modulus: &Vec<usize>, charac
         let mut current_divisor = create_zero_vec(cur_multiplier_deg + 1);
         current_divisor[cur_multiplier_deg] = multiplier;
 
-        let subtracted_poly = mul_vecs(&modulus, &current_divisor, characteristics, pow);
+        let subtracted_poly = mul_vecs(modulus, &current_divisor, characteristics, pow);
         let rev_poly = add_inverse_vec(&subtracted_poly, characteristics);
         cur_poly = add_vecs(&cur_poly, &rev_poly, characteristics);
         cur_deg = get_vec_deg(&cur_poly);

@@ -13,7 +13,7 @@ impl Add for GF256Element{
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {
-        let gf256_field = create_gf256_field();
+        let gf256_field = FiniteField::new(2, 8, vec![1, 1, 0, 1, 1, 0, 0, 0, 1]);
         let self_as_ffe = FFElement::new(self.representation, &gf256_field);
         let rhs_as_ffe = FFElement::new(rhs.representation, &gf256_field);
         let result = self_as_ffe + rhs_as_ffe;
@@ -25,7 +25,7 @@ impl Mul for GF256Element{
     type Output = Self;
 
     fn mul(self, rhs: Self) -> Self::Output {
-        let gf256_field = create_gf256_field();
+        let gf256_field = FiniteField::new(2, 8, vec![1, 1, 0, 1, 1, 0, 0, 0, 1]);
         let self_as_ffe = FFElement::new(self.representation, &gf256_field);
         let rhs_as_ffe = FFElement::new(rhs.representation, &gf256_field);
         let result = self_as_ffe * rhs_as_ffe;
@@ -37,7 +37,7 @@ impl Div for GF256Element {
     type Output = Self;
 
     fn div(self, rhs: Self) -> Self::Output {
-        let gf256_field = create_gf256_field();
+        let gf256_field = FiniteField::new(2, 8, vec![1, 1, 0, 1, 1, 0, 0, 0, 1]);
         let self_as_ffe = FFElement::new(self.representation, &gf256_field);
         let rhs_as_ffe = FFElement::new(rhs.representation, &gf256_field);
         let result = self_as_ffe / rhs_as_ffe;
@@ -49,7 +49,7 @@ impl Sub for GF256Element{
     type Output = Self;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        let gf256_field = create_gf256_field();
+        let gf256_field = FiniteField::new(2, 8, vec![1, 1, 0, 1, 1, 0, 0, 0, 1]);
         let self_as_ffe = FFElement::new(self.representation, &gf256_field);
         let rhs_as_ffe = FFElement::new(rhs.representation, &gf256_field);
         let result = self_as_ffe - rhs_as_ffe;
@@ -61,7 +61,7 @@ impl Neg for GF256Element {
     type Output = Self;
     
     fn neg(self) -> Self::Output {
-        let gf256_field = create_gf256_field();
+        let gf256_field = FiniteField::new(2, 8, vec![1, 1, 0, 1, 1, 0, 0, 0, 1]);
         let self_as_ffe = FFElement::new(self.representation, &gf256_field);
         let result = -self_as_ffe;
         GF256Element::new(result.representation)
@@ -83,7 +83,7 @@ impl PartialEq for GF256Element{
 
 impl GF256Element{
     pub fn inverse(&self) -> GF256Element{
-        let gf256_field = create_gf256_field();
+        let gf256_field = FiniteField::new(2, 8, vec![1, 1, 0, 1, 1, 0, 0, 0, 1]);
         let repr_copy = self.representation.clone();
         let self_as_ffe = FFElement::new(repr_copy, &gf256_field);
         let inverse = self_as_ffe.inverse();
@@ -111,18 +111,10 @@ impl GF256Element{
     pub fn from_byte(byte: u8) -> GF256Element{
         let mut number = byte;
         let mut representation = utils::create_zero_vec(8);
-        for i in 0..8 {
-            representation[i] = (number % 2) as usize; 
+        for item in representation.iter_mut().take(8){
+            *item = (number % 2) as usize; 
             number /= 2;
         }
-
-        
-
         GF256Element::new(representation)
     }  
-}
-
-
-fn create_gf256_field() -> FiniteField{
-    FiniteField { characteristics:2, pow: 8, irr_poly: vec![1, 1, 0, 1, 1, 0, 0, 0, 1] }
 }

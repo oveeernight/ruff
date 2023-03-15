@@ -30,15 +30,15 @@ use ruff::finite_field_element::gf256_element::GF256Element;
 
 fn main(){
  // no need no initialize field and provide it to elements
-    let a = GF256Element::new(vec![0, 0, 0, 1, 1, 0, 0, 0] );
-    let b = GF256Element::new(vec![1, 0, 1, 1, 1, 0, 0, 1] );
+    let a = GF256Element::new(vec![0, 0, 0, 1, 1, 0, 0, 0]);
+    let b = GF256Element::new(vec![1, 0, 1, 1, 1, 0, 0, 1]);
     //can perform same operations
     let sum = a + b;
     let mul = a * b;
     let sub = a - b;
     let div = a / b;
     let a_inverse = a.inverse();
-    let add_b_inverse = -b;
+    let b_add_inverse = -b;
 
     // extra useful operations
     // expected element has representation [0, 1, 1, 1, 1, 1, 1, 1]
