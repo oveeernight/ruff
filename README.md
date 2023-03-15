@@ -28,10 +28,10 @@ Since $GF(256)$ elements represents bytes, extra more concise interface with har
 ```rust
 use ruff::finite_field_element::gf256_element::GF256Element;
 
-fn main()
+fn main(){
  // no need no initialize field and provide it to elements
-    let a = GF256Element::new(vec![0, 0, 0, 1, 1, 0, 0, 0, 0] );
-    let b = GF256Element::new(vec![1, 0, 1, 1, 1, 0, 0, 0, 1] );
+    let a = GF256Element::new(vec![0, 0, 0, 1, 1, 0, 0, 0] );
+    let b = GF256Element::new(vec![1, 0, 1, 1, 1, 0, 0, 1] );
     //can perform same operations
     let sum = a + b;
     let mul = a * b;

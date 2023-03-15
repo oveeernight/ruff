@@ -75,6 +75,7 @@ impl PartialEq for GF256Element{
                 return false;
             }
         }
+        
         true
     }
 }
@@ -114,6 +115,8 @@ impl GF256Element{
             representation[i] = (number % 2) as usize; 
             number /= 2;
         }
+
+        
 
         GF256Element::new(representation)
     }  

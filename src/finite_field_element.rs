@@ -48,27 +48,24 @@ impl Mul for FFElement<'_> {
     }
 }
 
-impl Div for FFElement<'_> {
+impl<'a> Div for FFElement<'a> {
     type Output = Self;
-
-    fn div(self, rhs: Self) -> Self::Output {
+    fn div(self, rhs: Self) -> FFElement<'a> {
         if utils::is_zero_vec(&rhs.representation){
             panic!("Can not divide by zero.")
         }
         let inverse = rhs.inverse();
-        self * FFElement{
-            representation: inverse.representation,
-            field: &rhs.field
-        }
+        // копируется потому что если вернуть self * inverse компилятор будет ругаться на то, что возвращается значение,
+        // ссылающееся на параметр функции rhs (borrowing в 57 строке), а аргументы после операции муваются и тогда получится,
+        //что операция возвращает значение, которое нельзя использовать, как я понимаю
+        self * FFElement::new(inverse.representation, rhs.field)
     }
 }
 
 impl Neg for FFElement<'_> {
     type Output = Self;
-
     fn neg(self) -> Self::Output {
         let inv_repr = utils::add_inverse_vec(&self.representation, self.field.characteristics);
-
         FFElement::new(inv_repr, self.field)
     }
 }
