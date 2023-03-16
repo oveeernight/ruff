@@ -1,6 +1,6 @@
 ![CI](https://github.com/rnpozharskiy/ruff/actions/workflows/rust.yml/badge.svg?branch=develop)
 # Overview
-`ruff` is blazingly fast and memory efficient finite fields library. It provides basic operations like `+`, `-`, `*`, `/` for arbitrary finite field.
+`ruff` is blazingly slow and memory inefficient finite fields library. It provides basic operations like `+`, `-`, `*`, `/` for arbitrary finite field.
 ## Common usage example
 ```rust
 use ruff::finite_field::{FiniteField, FFElement};
@@ -8,7 +8,7 @@ use ruff::finite_field::{FiniteField, FFElement};
 fn main(){
     // initialize finite field with characteristics, pow and irreducable polynomial
     let finite_field = FiniteField::new(7, 8, vec![5,1,0,3,1,0,0,0,1]);
-    // initialize elements with it's representations
+    // initialize element with representations and field
     let a = FFElement::new(vec![6,1,0,3,1,6,0,6], &finite_field);
     let b = FFElement::new(vec![5,1,0,3,1,2,0,6], &finite_field);
     let sum = a + b;
@@ -18,7 +18,7 @@ fn main(){
     let a_inverse = a.inverse();
     let div = a / b;
     // getting inverse element in additive group
-    let b_add_inverse = -b;
+    let b_opposite = -b;
 }
 ```
 ## GF256
@@ -38,7 +38,7 @@ fn main(){
     let sub = a - b;
     let div = a / b;
     let a_inverse = a.inverse();
-    let b_add_inverse = -b;
+    let b_opposite = -b;
 
     // extra useful operations
     // expected element has representation [0, 1, 1, 1, 1, 1, 1, 1]

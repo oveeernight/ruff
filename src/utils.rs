@@ -33,7 +33,7 @@ pub fn is_zero_vec(polynom: &Vec<usize>) -> bool{
     true
 }
 
-pub fn add_inverse_vec(v: &[usize], characteristics: usize) -> Vec<usize>{
+pub fn get_opposite_vec(v: &[usize], characteristics: usize) -> Vec<usize>{
     let mut result = create_zero_vec(v.len());
     for i in 0..result.len() {
         result[i] = (characteristics - v[i]) % characteristics
@@ -72,8 +72,8 @@ pub fn get_division_remainder(polynom: &Vec<usize>, modulus: &[usize], character
     let mut cur_deg = get_vec_deg(polynom);
     let mut cur_poly = polynom.clone();
     let modulus_deg = modulus.len() - 1;
-    // mst is for modulus senior term
-    let mst_rev = inverse_prime_field_element(modulus[modulus_deg], characteristics);
+    // mlt is for modulus leading term
+    let mlt_rev = inverse_prime_field_element(modulus[modulus_deg], characteristics);
     while cur_deg >= modulus_deg{
         // if we divide x^5 by x^3 then current multiplier is x^2
         let cur_multiplier_deg = cur_deg - modulus_deg;
@@ -81,13 +81,13 @@ pub fn get_division_remainder(polynom: &Vec<usize>, modulus: &[usize], character
         // we want to decrease cur_poly degree, let senior term of cur_poly be A and modulus senior term be B, 
         // C is desired multiplier
         //then A = BC and C = AB^{-1}
-        let multiplier = (cur_poly[cur_deg] * mst_rev) % characteristics;
+        let multiplier = (cur_poly[cur_deg] * mlt_rev) % characteristics;
 
         let mut current_divisor = create_zero_vec(cur_multiplier_deg + 1);
         current_divisor[cur_multiplier_deg] = multiplier;
 
         let subtracted_poly = mul_vecs(modulus, &current_divisor, characteristics, pow);
-        let rev_poly = add_inverse_vec(&subtracted_poly, characteristics);
+        let rev_poly = get_opposite_vec(&subtracted_poly, characteristics);
         cur_poly = add_vecs(&cur_poly, &rev_poly, characteristics);
         cur_deg = get_vec_deg(&cur_poly);
     }

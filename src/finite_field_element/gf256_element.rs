@@ -49,11 +49,7 @@ impl Sub for GF256Element{
     type Output = Self;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        let gf256_field = FiniteField::new(2, 8, vec![1, 1, 0, 1, 1, 0, 0, 0, 1]);
-        let self_as_ffe = FFElement::new(self.representation, &gf256_field);
-        let rhs_as_ffe = FFElement::new(rhs.representation, &gf256_field);
-        let result = self_as_ffe - rhs_as_ffe;
-        GF256Element::new(result.representation)
+        self + rhs
     }
 }
 

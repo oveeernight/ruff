@@ -28,7 +28,7 @@ impl Sub for FFElement<'_> {
     type Output = Self;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        let rhs_add_rev = utils::add_inverse_vec(&rhs.representation, self.field.characteristics);
+        let rhs_add_rev = utils::get_opposite_vec(&rhs.representation, self.field.characteristics);
         let representation = utils::add_vecs(&self.representation, &rhs_add_rev, self.field.characteristics);
         FFElement::new(representation, self.field)
     }
@@ -65,7 +65,7 @@ impl<'a> Div for FFElement<'a> {
 impl Neg for FFElement<'_> {
     type Output = Self;
     fn neg(self) -> Self::Output {
-        let inv_repr = utils::add_inverse_vec(&self.representation, self.field.characteristics);
+        let inv_repr = utils::get_opposite_vec(&self.representation, self.field.characteristics);
         FFElement::new(inv_repr, self.field)
     }
 }

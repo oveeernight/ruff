@@ -14,7 +14,7 @@ impl FiniteField{
             pow, 
             irr_poly}
     }
-
+    
     pub fn create_one(&self) -> FFElement{
         FFElement{
             representation: utils::create_one_vec(self.pow),
