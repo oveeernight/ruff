@@ -2,7 +2,7 @@ use ruff::{finite_field::{FiniteField}, finite_field_element::FFElement};
 
 #[test]
 fn add_operation_without_overflow_is_correct(){
-    let irr : Vec<usize> = vec![1,1,2];
+    let irr : Vec<usize> = vec![2,1,1];
 
     let field =  FiniteField::new(3, 2, irr);
     let element1 = FFElement::new(vec![0,1], &field);
@@ -14,7 +14,7 @@ fn add_operation_without_overflow_is_correct(){
 
 #[test]
 fn add_operation_with_overflow_is_correct(){
-    let irr : Vec<usize> = vec![1,1,2];
+    let irr : Vec<usize> = vec![2,1,1];
 
     let field =  FiniteField::new(3, 2, irr);
     let element1 = FFElement::new(vec![2,2], &field);
@@ -26,7 +26,7 @@ fn add_operation_with_overflow_is_correct(){
 
 #[test]
 fn sub_operation_without_overflow_is_correct(){
-    let irr : Vec<usize> = vec![1,1,2];
+    let irr : Vec<usize> = vec![2,1,1];
 
     let field =  FiniteField::new(3, 2, irr);
     let element1 = FFElement::new(vec![2,2], &field);
@@ -38,7 +38,7 @@ fn sub_operation_without_overflow_is_correct(){
 
 #[test]
 fn sub_operation_with_overflow_is_correct(){
-    let irr : Vec<usize> = vec![1,1,2];
+    let irr : Vec<usize> = vec![2,1,1];
 
     let field =  FiniteField::new(3, 2, irr);
     let element1 = FFElement::new(vec![0,2], &field);
@@ -50,7 +50,7 @@ fn sub_operation_with_overflow_is_correct(){
 
 #[test]
 fn neg_evaluation_is_correct(){
-    let irr : Vec<usize> = vec![1,1,2];
+    let irr : Vec<usize> = vec![2,1,1];
 
     let field =  FiniteField::new(3, 2, irr);
     let element = FFElement::new(vec![2,0], &field);
@@ -61,7 +61,7 @@ fn neg_evaluation_is_correct(){
 #[test]
 #[should_panic(expected = "Components count must be equal to field pow" )]
 fn ffe_new_with_invalid_repr_len_panics(){
-    let irr : Vec<usize> = vec![1,1,2];
+    let irr : Vec<usize> = vec![2,1,1];
 
     let field =  FiniteField::new(3, 2, irr);
     let _element = FFElement::new(vec![0,1,0], &field);
@@ -70,7 +70,7 @@ fn ffe_new_with_invalid_repr_len_panics(){
 #[test]
 #[should_panic(expected = "Component value must be less than field characteristic" )]
 fn ffe_new_with_invalid_repr_vals_panics(){
-    let irr : Vec<usize> = vec![1,1,2];
+    let irr : Vec<usize> = vec![2,1,1];
 
     let field =  FiniteField::new(3, 2, irr);
     let _element = FFElement::new(vec![3,5], &field);
@@ -137,7 +137,7 @@ fn inverse_to_zero_panics(){
 
 #[test]
 fn inverse_to_one_is_one(){
-    let irr : Vec<usize> = vec![1,1,2];
+    let irr : Vec<usize> = vec![2,1,1];
 
     let field =  FiniteField::new(3, 2, irr);
     let element = FFElement::new(vec![1, 0], &field);
