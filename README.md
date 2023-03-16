@@ -8,7 +8,7 @@ use ruff::finite_field::{FiniteField, FFElement};
 fn main(){
     // initialize finite field with characteristics, pow and irreducable polynomial
     let finite_field = FiniteField::new(7, 8, vec![5,1,0,3,1,0,0,0,1]);
-    // initialize element with representations and field
+    // initialize element with representation and field
     let a = FFElement::new(vec![6,1,0,3,1,6,0,6], &finite_field);
     let b = FFElement::new(vec![5,1,0,3,1,2,0,6], &finite_field);
     let sum = a + b;
