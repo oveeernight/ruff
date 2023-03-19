@@ -8,9 +8,11 @@ pub trait Crypter {
     fn decode(&self, message: &[u8]) -> String;
 }
 
+/// Represents service that performs one of the stages of the AES algorithm
 pub struct AesService<'a>{
     key: &'a[u8]
 }
+
 
 impl <'a> Crypter for AesService<'a>{
     fn encode(&self, message: &str) -> Vec<u8> {

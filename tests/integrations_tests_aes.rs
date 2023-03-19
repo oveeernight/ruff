@@ -47,7 +47,7 @@ fn message_32byte_russian_en_literals_equals_to_decoded_message(){
 }
 
 #[test]
-fn message_112byte_russian_en_literals_equals_to_decoded_message(){
+fn message_48byte_russian_en_literals_equals_to_decoded_message(){
     let aes_service = AesService::new(&KEY);
     let message = "АБВГДЕёжabcdefghtyrfghpjAbcDfGtErUioPqgn89145nBghPqZxfdQАБВешу12uioplk,456TYRGHPLK9o7b5f8h5d0h5gа"; 
     let encrypted_message = aes_service.encode(message);
