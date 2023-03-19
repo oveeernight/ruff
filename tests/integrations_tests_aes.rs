@@ -20,7 +20,7 @@ const KEY : [u8; 256] =
 ];
 
 #[test]
-fn message_16byte_equals_to_decoded_message(){
+fn message_16bytes_equals_to_decoded_message(){
     let aes_service = AesService::new(&KEY);
     let message = "abcdefghtyrfghpj"; 
     let encrypted_message = aes_service.encode(message);
@@ -29,7 +29,7 @@ fn message_16byte_equals_to_decoded_message(){
 }
 
 #[test]
-fn message_16byte_russian_literals_equals_to_decoded_message(){
+fn message_16bytes_russian_literals_equals_to_decoded_message(){
     let aes_service = AesService::new(&KEY);
     let message = "АБВГДЕёж"; 
     let encrypted_message = aes_service.encode(message);
@@ -38,7 +38,7 @@ fn message_16byte_russian_literals_equals_to_decoded_message(){
 }
 
 #[test]
-fn message_32byte_russian_en_literals_equals_to_decoded_message(){
+fn message_32bytes_russian_en_literals_equals_to_decoded_message(){
     let aes_service = AesService::new(&KEY);
     let message = "АБВГДЕёжabcdefghtyrfghpj"; 
     let encrypted_message = aes_service.encode(message);
@@ -47,12 +47,22 @@ fn message_32byte_russian_en_literals_equals_to_decoded_message(){
 }
 
 #[test]
-fn message_48byte_russian_en_literals_equals_to_decoded_message(){
+fn message_112bytes_russian_en_literals_equals_to_decoded_message(){
     let aes_service = AesService::new(&KEY);
     let message = "АБВГДЕёжabcdefghtyrfghpjAbcDfGtErUioPqgn89145nBghPqZxfdQАБВешу12uioplk,456TYRGHPLK9o7b5f8h5d0h5gа"; 
     let encrypted_message = aes_service.encode(message);
     let decrypted_message = aes_service.decode(&encrypted_message);
     assert_eq!(message, decrypted_message)
 }
+
+#[test]
+fn message_16bytes_bonus_equals_to_decoded_message(){
+    let aes_service = AesService::new(&KEY);
+    let message = "i hate rust af!!"; 
+    let encrypted_message = aes_service.encode(message);
+    let decrypted_message = aes_service.decode(&encrypted_message);
+    assert_eq!(message, decrypted_message)
+}
+
 
 

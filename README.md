@@ -50,7 +50,7 @@ fn main(){
 Notice that given code examples will not complie due to [variables movement](https://doc.rust-lang.org/rust-by-example/scope/move.html) in Rust. They are just shorthands so that readme does not grow much. You must use it considering Rust peculiarities.
 
 ## AES stage
-As an application of using the $GF(256)$ finite field, the library also provides the ability to encode messages that are a multiple of 16 bytes long with a key of 256 bytes using one of the stages of the AES algorithm
+As an application of using the $GF(256)$ finite field, the library also provides the ability to encode messages that are a multiple of 16 bytes long with a key of 256 bytes using one of the stages of the AES algorithm.
 ```rust
 use ruff::aes_service::{Crypter, AesService};
 
