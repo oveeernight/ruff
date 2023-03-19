@@ -2,6 +2,8 @@ pub mod finite_field;
 
 pub mod finite_field_element;
 
+pub mod aes_service;
+
 mod utils;
 
 

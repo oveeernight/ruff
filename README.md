@@ -1,4 +1,4 @@
-![CI](https://github.com/rnpozharskiy/ruff/actions/workflows/rust.yml/badge.svg?branch=develop)
+![CI](https://github.com/rnpozharskiy/ruff/actions/workflows/rust.yml/badge.svg)
 # Overview
 `ruff` is blazingly slow and memory inefficient finite fields library. It provides basic operations like `+`, `-`, `*`, `/` for arbitrary finite field.
 ## Common usage example
