@@ -15,6 +15,7 @@ pub struct AesService<'a>{
 
 
 impl <'a> Crypter for AesService<'a>{
+    // encode returns bytes slice rather than string due to algorithm often converts string to invalid utf8 string
     fn encode(&self, message: &str) -> Vec<u8> {
         let message_bytes =  message.as_bytes();
         let mut result : Vec<u8> = Vec::new();
@@ -68,6 +69,9 @@ impl <'a> Crypter for AesService<'a>{
 
 impl <'a> AesService<'a>{
     pub fn new(key: &[u8]) -> AesService{
+        if key.len() != 256{
+            panic!("Key size must be equal to 256.")
+        }
         AesService { key }
     }
 }
@@ -107,6 +111,6 @@ fn copy_message_part(message_part: &[u8]) -> Vec<u8>{
 fn convert_to_string(bytes_slice: Vec<u8>) -> String{
     match std::str::from_utf8(&bytes_slice) {
         Ok(s) => s.to_string(),
-        Err(_) => panic!("Could not convert bytes slice to string. Found invalid utf8")
+        Err(_) => panic!("Could not convert bytes slice to string. Found invalid utf8.")
     }
 }
