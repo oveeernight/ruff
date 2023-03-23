@@ -1,4 +1,4 @@
-![CI](https://github.com/rnpozharskiy/ruff/actions/workflows/rust.yml/badge.svg?branch=develop)
+![CI](https://github.com/rnpozharskiy/ruff/actions/workflows/rust.yml/badge.svg)
 # Overview
 `ruff` is blazingly slow and memory inefficient finite fields library. It provides basic operations like `+`, `-`, `*`, `/` for arbitrary finite field.
 ## Common usage example
@@ -29,7 +29,7 @@ Since $GF(256)$ elements represents bytes, extra more concise interface with har
 use ruff::finite_field_element::gf256_element::GF256Element;
 
 fn main(){
- // no need no initialize field and provide it to elements
+    // no need no initialize field and provide it to elements
     let a = GF256Element::new(vec![0, 0, 0, 1, 1, 0, 0, 0]);
     let b = GF256Element::new(vec![1, 0, 1, 1, 1, 0, 0, 1]);
     //can perform same operations
@@ -48,3 +48,17 @@ fn main(){
 }
 ```
 Notice that given code examples will not complie due to [variables movement](https://doc.rust-lang.org/rust-by-example/scope/move.html) in Rust. They are just shorthands so that readme does not grow much. You must use it considering Rust peculiarities.
+
+## AES stage
+As an application of using the $GF(256)$ finite field, the library also provides the ability to encode messages that are a multiple of 16 bytes long with a key of 256 bytes using one of the stages of the AES algorithm.
+```rust
+use ruff::aes_service::{Crypter, AesService};
+
+fn main(){
+    // Initialize new service with key representing [u8; 256]
+    let aes_service = AesService::new(&key);
+    let message = "asdfgtyhplnbty56"
+    let encrypted_message = aes_service.encode(message);
+    let decrypted_message = aes_service.decode(&encrypted_message);
+}
+```

@@ -119,3 +119,20 @@ pub fn inverse_prime_field_element(a: usize, characteristics: usize) -> usize{
     result
 }
 
+pub fn to_usize_vec(vec: &[u8]) -> Vec<usize>{
+    let mut result = create_zero_vec(8);
+    for i in 0..8{
+        result[i] = vec[i] as usize
+    }
+    result
+}
+
+pub fn to_u8_vec(vec: &[usize]) -> Vec<u8>{
+    let mut result = Vec::with_capacity(8);
+    for i in 0..8{
+        result.push(0);
+        result[i] = vec[i] as u8
+    }
+    result
+}
+
